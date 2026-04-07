@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 public class Livro {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "livro_id")
     private Long id;
     @NotBlank
@@ -24,7 +24,7 @@ public class Livro {
     @Column(name = "isbn", unique = true)
     private String isbn;
     private int anoPublicacao;
-    private int qntEstaque;
+    private int qntEstoque;
 
     @ManyToOne
     @JoinColumn(name = "genero_id")

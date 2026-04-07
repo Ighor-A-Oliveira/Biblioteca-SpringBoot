@@ -1,134 +1,71 @@
 package com.oliver.biblioteca_java.controller;
 
+
 import com.oliver.biblioteca_java.dto.LivroDto;
-import com.oliver.biblioteca_java.entity.Livro;
-import com.oliver.biblioteca_java.repo.LivroRepo;
-import org.springframework.stereotype.Service;
+import com.oliver.biblioteca_java.service.LivroService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
-@Service
+@RestController
+@RequestMapping("/livro")
 public class LivroController {
 
-    //criar metodo para mapear de Entidade para dto e viceversa
-    //Separar metodo de comparacao em update e apenas chamar qnd necessario passando os objetos
-    //Add buscar por autor, por genero e por ano de publicacao
+    private final LivroService livroServ;
 
-    private final LivroRepo livroRepo;
-
-
-    public LivroController(LivroRepo livroRepo) {
-        this.livroRepo = livroRepo;
+    public LivroController(LivroService livroServ){
+        this.livroServ = livroServ;
     }
 
-    public void salvarLivro(LivroDto livroDto){
-        Livro livro = new Livro();
-        livro.setIsbn(livroDto.getIsbn());
-        livro.setAutores(livroDto.getAutores());// falta tratar autores um pouco mais
-        livro.setGenero(livroDto.getGenero());
-        livro.setTitulo(livroDto.getTitulo());
-        livro.setAnoPublicacao(livroDto.getAnoPublicacao());
-        livro.setQntEstaque(livroDto.getQntEstaque());
-
-        livroRepo.saveAndFlush(livro);
+    @PostMapping
+    public ResponseEntity<Void> salvarLivro(@RequestBody LivroDto livroDto){
+        livroServ.salvarLivro(livroDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+    @GetMapping("/id/{id}")
+    public ResponseEntity<LivroDto> buscarLivroPorId(@PathVariable Long id){
+        return ResponseEntity.ok(livroServ.buscarLivroPorId(id));
     }
 
-    public LivroDto buscarLivroPorId(Long id){
-        Livro livro = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro nao encontrado"));
-        LivroDto livroDto = new LivroDto();
-        livroDto.setIsbn(livro.getIsbn());
-        livroDto.setAutores(livro.getAutores());// falta tratar autores um pouco mais
-        livroDto.setGenero(livro.getGenero());
-        livroDto.setTitulo(livro.getTitulo());
-        livroDto.setAnoPublicacao(livro.getAnoPublicacao());
-        livroDto.setQntEstaque(livro.getQntEstaque());
-
-        return livroDto;
+    @GetMapping("/isbn/{isbn}")
+    public ResponseEntity<LivroDto> buscarLivroPorIsbn(@PathVariable String isbn){
+        return ResponseEntity.ok(livroServ.buscarLivroPorIsbn(isbn));
     }
 
-    public LivroDto buscarLivroPorIsbn(String isbn){
-        Livro livro = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro nao encontrado"));
-        LivroDto livroDto = new LivroDto();
-        livroDto.setIsbn(livro.getIsbn());
-        livroDto.setAutores(livro.getAutores());// falta tratar autores um pouco mais
-        livroDto.setGenero(livro.getGenero());
-        livroDto.setTitulo(livro.getTitulo());
-        livroDto.setAnoPublicacao(livro.getAnoPublicacao());
-        livroDto.setQntEstaque(livro.getQntEstaque());
-
-        return livroDto;
+    @GetMapping("/titulo/{titulo}")
+    public ResponseEntity<LivroDto> buscarLivroPorTitulo(@PathVariable String titulo){
+        return ResponseEntity.ok(livroServ.buscarLivroPorTitulo(titulo));
     }
 
-    public LivroDto buscarUsuarioPorTitulo(String titulo){
-        Livro livro = livroRepo.findByTitulo(titulo).orElseThrow(() -> new RuntimeException("Livro nao encontrado"));
-        LivroDto livroDto = new LivroDto();
-        livroDto.setIsbn(livro.getIsbn());
-        livroDto.setAutores(livro.getAutores());// falta tratar autores um pouco mais
-        livroDto.setGenero(livro.getGenero());
-        livroDto.setTitulo(livro.getTitulo());
-        livroDto.setAnoPublicacao(livro.getAnoPublicacao());
-        livroDto.setQntEstaque(livro.getQntEstaque());
-
-        return livroDto;
+    @GetMapping
+    public ResponseEntity<List<LivroDto> >buscarTodosLivros(){
+        return ResponseEntity.ok(livroServ.buscarTodosLivros());
     }
 
-    public List<LivroDto> buscarTodosLivros(){
-        List<Livro> livros = livroRepo.findAll();
-        List<LivroDto> livrosDtos = livros.stream()
-                .map(livro -> new LivroDto(
-                        livro.getId(),
-                        livro.getTitulo(),
-                        livro.getIsbn(),
-                        livro.getGenero(),
-                        livro.getAnoPublicacao(),
-                        livro.getQntEstaque()
-                ))
-                .toList();
-
-        return livrosDtos;
+    @PutMapping("/id/{id}")
+    public ResponseEntity<Void> atualizarLivroPorId(@PathVariable Long id, @RequestBody LivroDto livroDto){
+        livroServ.atualizarLivroPorId(id,livroDto);
+        return ResponseEntity.noContent().build();
     }
 
-    public void atualizarLivroPorId(Long id, LivroDto livroDto){
-        Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
-        Livro livroNew = Livro.builder()
-                .autores(livroDto.getAutores() != null ? livroDto.getAutores() : livroDB.getAutores())
-                .genero(livroDto.getGenero() != null ? livroDto.getGenero() : livroDB.getGenero())
-                .titulo(livroDto.getTitulo() != null ? livroDto.getTitulo() : livroDB.getTitulo())
-                .isbn(livroDto.getIsbn() != null ? livroDto.getIsbn() : livroDB.getIsbn())
-                .anoPublicacao(livroDto.getAnoPublicacao() != 0 ? livroDto.getAnoPublicacao() : livroDB.getAnoPublicacao())
-                .qntEstaque(livroDto.getQntEstaque() > 0 ? livroDto.getQntEstaque() : livroDB.getQntEstaque())
-                .build();
-        livroRepo.saveAndFlush(livroNew);
+    @PutMapping("/isbn/{isbn}")
+    public ResponseEntity<Void> atualizarLivroPorIsbn(@PathVariable String isbn, @RequestBody LivroDto livroDto){
+        livroServ.atualizarLivroPorIsbn(isbn,livroDto);
+        return ResponseEntity.noContent().build();
     }
 
-    public void atualizarLivroPorIsbn(String isbn, LivroDto livroDto){
-        Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
-        Livro livroNew = Livro.builder()
-                .autores(livroDto.getAutores() != null ? livroDto.getAutores() : livroDB.getAutores())
-                .genero(livroDto.getGenero() != null ? livroDto.getGenero() : livroDB.getGenero())
-                .titulo(livroDto.getTitulo() != null ? livroDto.getTitulo() : livroDB.getTitulo())
-                .isbn(livroDto.getIsbn() != null ? livroDto.getIsbn() : livroDB.getIsbn())
-                .anoPublicacao(livroDto.getAnoPublicacao() != 0 ? livroDto.getAnoPublicacao() : livroDB.getAnoPublicacao())
-                .qntEstaque(livroDto.getQntEstaque() > 0 ? livroDto.getQntEstaque() : livroDB.getQntEstaque())
-                .build();
-        livroRepo.saveAndFlush(livroNew);
+    @DeleteMapping("/id/{id}")
+    public ResponseEntity<Void> deletarPorId(@PathVariable Long id){
+        livroServ.deletarPorId(id);
+        return ResponseEntity.noContent().build();
     }
 
-    public void deletarPorId(Long id){
-        Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
-        try{
-            livroRepo.deleteById(id);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void deletarPorIsbn(String isbn){
-        Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
-        try{
-            livroRepo.deleteByIsbn(isbn);
-        } catch (RuntimeException e) {
-            throw new RuntimeException(e);
-        }
+    @DeleteMapping("/isbn/{isbn}")
+    public ResponseEntity<Void> deletarPorIsbn(@PathVariable String isbn){
+        livroServ.deletarPorIsbn(isbn);
+        return ResponseEntity.noContent().build();
     }
 }

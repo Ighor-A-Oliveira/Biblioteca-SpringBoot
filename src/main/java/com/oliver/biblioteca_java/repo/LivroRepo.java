@@ -9,8 +9,7 @@ import java.util.Optional;
 public interface LivroRepo extends JpaRepository<Livro,Long> {
 
     Optional<List<Livro>> findByGenero(String genero);
-    Optional<List<Livro>> findByAutor(String autor);
-    //Optional<Livro> findById(Long id);
+    Optional<List<Livro>> findByAutoresId(Long id);
     Optional<Livro> findByIsbn(String isbn);
     Optional<Livro> findByTitulo(String titulo);
     void deleteById(Long id);

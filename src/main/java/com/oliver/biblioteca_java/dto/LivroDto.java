@@ -1,31 +1,37 @@
 package com.oliver.biblioteca_java.dto;
 
-import com.oliver.biblioteca_java.entity.Autor;
-import com.oliver.biblioteca_java.entity.Emprestimo;
-import com.oliver.biblioteca_java.entity.Genero;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
-@Setter
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class LivroDto {
 
     private Long id;
     private String titulo;
     private String isbn;
     private int anoPublicacao;
-    private int qntEstaque;
-    private Genero genero;
-    private List<Autor> autores;
-    private List<Emprestimo> emprestimos;
+    private int qntEstoque;
+    private Long generoId;
+    private List<Long> autoresId;
 
-    public LivroDto(Long id, @NotBlank String titulo, String isbn, Genero genero, int anoPublicacao, int qntEstaque) {
+    public LivroDto(Long id, @NotBlank String titulo, String isbn, Long generoId, int anoPublicacao, int qntEstoque) {
+        this.id = id;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.generoId = generoId;
+        this.anoPublicacao = anoPublicacao;
+        this.qntEstoque = qntEstoque;
+    }
+
+    public LivroDto(Long id, @NotBlank String titulo, String isbn, int anoPublicacao, int qntEstoque) {
+        this.id = id;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.anoPublicacao = anoPublicacao;
+        this.qntEstoque = qntEstoque;
     }
 }
