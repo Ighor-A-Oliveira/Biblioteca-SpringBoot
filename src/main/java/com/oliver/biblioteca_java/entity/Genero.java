@@ -9,8 +9,8 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Entity(name = "generos")
-@Table
+@Entity
+@Table(name = "generos")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -28,6 +28,6 @@ public class Genero {
     @Column(name = "descricao_genero")
     private String descricao;
 
-    @OneToMany(mappedBy = "genero")
+    @OneToMany(mappedBy = "genero", fetch = FetchType.LAZY)
     private List<Livro> livros;
 }

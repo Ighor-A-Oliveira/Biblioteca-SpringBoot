@@ -94,13 +94,13 @@ public class LivroService {
         //Aqui criamos uma lista de entidades autor para que possamos usar o metodo AutorParaDto
         List<Autor> tempAutores= livro.getAutores();
         //Esse metodo converte List<Autor> autores para List<Long> autoresId
-        List<Long> autores = AutorParaDto(tempAutores);
+        List<Long> autoresId = AutorParaDto(tempAutores);
 
         LivroDto livroDto = new LivroDto();
         livroDto.setId(livro.getId());
         livroDto.setIsbn(livro.getIsbn());
         //definindo a lista com os ids dos autores
-        livroDto.setAutoresId(autores);
+        livroDto.setAutoresId(autoresId);
         //definindo a lista com o id do genero do livro
         livroDto.setGeneroId(livro.getGenero().getId());
         livroDto.setTitulo(livro.getTitulo());
@@ -204,10 +204,10 @@ public class LivroService {
 
             livroDB.setAutores(autores);
         }
-        livroRepo.saveAndFlush(livroDB);
+        livroRepo.save(livroDB);
     }
 
-    public void deletarPorId(Long id){
+    public void deletarLivroPorId(Long id){
         Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
         try{
             livroRepo.deleteById(id);
@@ -216,7 +216,7 @@ public class LivroService {
         }
     }
 
-    public void deletarPorIsbn(String isbn){
+    public void deletarLivroPorIsbn(String isbn){
         Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
         try{
             livroRepo.deleteByIsbn(isbn);

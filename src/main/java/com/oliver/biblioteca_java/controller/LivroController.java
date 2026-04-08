@@ -58,14 +58,14 @@ public class LivroController {
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> deletarPorId(@PathVariable Long id){
-        livroServ.deletarPorId(id);
+    public ResponseEntity<Void> deletarLivroPorId(@PathVariable Long id){
+        livroServ.deletarLivroPorId(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/isbn/{isbn}")
-    public ResponseEntity<Void> deletarPorIsbn(@PathVariable String isbn){
-        livroServ.deletarPorIsbn(isbn);
+    public ResponseEntity<Void> deletarLivroPorIsbn(@PathVariable String isbn){
+        livroServ.deletarLivroPorIsbn(isbn);
         return ResponseEntity.noContent().build();
     }
 }
