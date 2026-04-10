@@ -21,7 +21,7 @@ public class AutorDto {
     public AutorDto(Long id, @NotBlank String nome, String nacionalidade) {
         this.id = id;
         this.nome = nome;
-        this.nacionalidade = nacionalidade ;
+        this.nacionalidade = nacionalidade;
 
     }
 }
