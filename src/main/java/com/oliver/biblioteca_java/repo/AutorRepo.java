@@ -8,6 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AutorRepo extends JpaRepository<Autor,Long> {
-    Optional<Autor> findById(Long id);
+    Optional<Autor> findByNome(String nome);
 
 }
