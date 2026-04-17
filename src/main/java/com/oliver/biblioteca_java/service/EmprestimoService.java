@@ -11,6 +11,7 @@ import com.oliver.biblioteca_java.repo.EmprestimoRepo;
 import com.oliver.biblioteca_java.repo.LivroRepo;
 import com.oliver.biblioteca_java.repo.MembroRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -28,6 +29,7 @@ public class EmprestimoService {
         this.membroRepo = membroRepo;
     }
 
+    @Transactional
     public void realizarEmprestimo(Long membroId, Long livroId){
         //Checando se temos o livro no acervo
         Livro livro = livroRepo.findById(livroId).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
@@ -60,6 +62,7 @@ public class EmprestimoService {
         emprestimoRepo.save(emp);
     }
 
+    @Transactional
     public void devolverLivro(Long emprestimoId){
         Emprestimo emp = emprestimoRepo.findById(emprestimoId).orElseThrow(() -> new RuntimeException("Emprestimo nao encontrado"));
 

@@ -19,34 +19,34 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarLivro(@RequestBody AutorDto autorDto){
+    public ResponseEntity<Void> salvarAutor(@RequestBody AutorDto autorDto){
         autorServ.salvarAutor(autorDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping("/id/{id}")
-    public ResponseEntity<AutorDto> buscarLivroPorId(@PathVariable Long id){
+    public ResponseEntity<AutorDto> buscarAutorPorId(@PathVariable Long id){
         return ResponseEntity.ok(autorServ.buscarAutorPorId(id));
     }
 
-    @GetMapping("/titulo/{titulo}")
-    public ResponseEntity<AutorDto> buscarLivroPorTitulo(@PathVariable String nome){
+    @GetMapping("/titulo/{nome}")
+    public ResponseEntity<AutorDto> buscarAutorPorNome(@PathVariable String nome){
         return ResponseEntity.ok(autorServ.buscarAutorPorNome(nome));
     }
 
     @GetMapping
-    public ResponseEntity<List<AutorDto>>buscarTodosLivros(){
+    public ResponseEntity<List<AutorDto>>buscarTodosAutores(){
         return ResponseEntity.ok(autorServ.buscarTodosAutores());
     }
 
     @PutMapping("/id/{id}")
-    public ResponseEntity<Void> atualizarLivroPorId(@PathVariable Long id, @RequestBody AutorDto autorDto){
+    public ResponseEntity<Void> atualizarAutorPorId(@PathVariable Long id, @RequestBody AutorDto autorDto){
         autorServ.atualizarAutorPorId(id,autorDto);
         return ResponseEntity.noContent().build();
     }
 
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> deletarLivroPorId(@PathVariable Long id){
+    public ResponseEntity<Void> deletarAutorPorId(@PathVariable Long id){
         autorServ.deletarAutorPorId(id);
         return ResponseEntity.noContent().build();
     }

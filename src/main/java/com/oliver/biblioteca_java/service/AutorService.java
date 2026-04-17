@@ -4,6 +4,7 @@ import com.oliver.biblioteca_java.dto.AutorDto;
 import com.oliver.biblioteca_java.entity.Autor;
 import com.oliver.biblioteca_java.repo.AutorRepo;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class AutorService {
         this.autorRepo = autorRepo;
     }
 
+    @Transactional
     public void salvarAutor(AutorDto autorDto){
         Autor autor = new Autor();
         autor.setNome(autorDto.getNome());
@@ -59,6 +61,7 @@ public class AutorService {
         return autoresDto;
     }
 
+    @Transactional
     public void atualizarAutorPorId(Long id, AutorDto autorDto){
         Autor autorDB = autorRepo.findById(id).orElseThrow(() -> new RuntimeException("Autor náo encontrado"));
 
@@ -76,6 +79,7 @@ public class AutorService {
     }
 
 
+    @Transactional
     public void deletarAutorPorId(Long id){
         try{
             autorRepo.deleteById(id);

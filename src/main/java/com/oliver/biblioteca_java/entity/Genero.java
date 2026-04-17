@@ -18,7 +18,7 @@ import java.util.List;
 public class Genero {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "genero_id")
     private Long id;
 

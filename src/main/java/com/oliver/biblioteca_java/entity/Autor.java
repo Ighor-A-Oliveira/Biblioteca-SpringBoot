@@ -20,7 +20,7 @@ import java.util.List;
 public class Autor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "autor_id")
     private Long id;
 

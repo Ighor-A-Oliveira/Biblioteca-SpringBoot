@@ -16,9 +16,10 @@ import java.util.List;
 @Builder
 public class Livro {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "livro_id")
     private Long id;
+
     @NotBlank
     private String titulo;
     @Column(name = "isbn", unique = true)

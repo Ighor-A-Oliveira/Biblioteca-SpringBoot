@@ -4,6 +4,7 @@ import com.oliver.biblioteca_java.dto.MembroDto;
 import com.oliver.biblioteca_java.entity.Emprestimo;
 import com.oliver.biblioteca_java.entity.Membro;
 import com.oliver.biblioteca_java.repo.MembroRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class MembroService {
     }
 
 
+    @Transactional
     public void salvarMembro(MembroDto membroDto){
         Membro membro = new Membro();
         membro.setNome(membroDto.getNome());
@@ -69,6 +71,7 @@ public class MembroService {
         return membrosDtos;
     }
 
+    @Transactional
     public void atualizarMembroPorId(Long id, MembroDto membroDto){
         Membro membroDB = membroRepo.findById(id).orElseThrow(() -> new RuntimeException("Membro náo encontrado"));
 
@@ -99,6 +102,7 @@ public class MembroService {
     }
 
 
+    @Transactional
     public void deletarMembroPorId(Long id){
         try{
             membroRepo.deleteById(id);

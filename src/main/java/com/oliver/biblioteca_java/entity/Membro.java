@@ -20,8 +20,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Membro {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "autor_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @Column(name = "membro_id")
     private Long id;
 
     @NotBlank

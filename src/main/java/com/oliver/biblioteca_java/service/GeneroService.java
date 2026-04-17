@@ -8,6 +8,7 @@ import com.oliver.biblioteca_java.entity.Livro;
 import com.oliver.biblioteca_java.repo.AutorRepo;
 import com.oliver.biblioteca_java.repo.GeneroRepo;
 import com.oliver.biblioteca_java.repo.LivroRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class GeneroService {
         this.generoRepo = generoRepo;
     }
 
+    @Transactional
     public void salvarGenero(GeneroDto generoDto){
         Genero genero = new Genero();
         genero.setNome(generoDto.getNome());
@@ -66,6 +68,7 @@ public class GeneroService {
         return generosDtos;
     }
 
+    @Transactional
     public void atualizarGeneroPorId(Long id, GeneroDto generoDto){
         Genero generoDB = generoRepo.findById(id).orElseThrow(() -> new RuntimeException("Genero náo encontrado"));
 
@@ -84,6 +87,7 @@ public class GeneroService {
     }
 
 
+    @Transactional
     public void deletarGeneroPorId(Long id){
         Genero generoDB = generoRepo.findById(id).orElseThrow(() -> new RuntimeException("Genero náo encontrado"));
         try{

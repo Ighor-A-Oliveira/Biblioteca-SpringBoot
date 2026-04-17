@@ -31,7 +31,7 @@ public class GeneroController {
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<List<GeneroDto>> buscarGeneroPorNome(String nome){
+    public ResponseEntity<List<GeneroDto>> buscarGeneroPorNome(@PathVariable String nome){
         return ResponseEntity.ok(generoServ.buscarGeneroPorNome(nome));
     }
 

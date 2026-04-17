@@ -7,6 +7,7 @@ import com.oliver.biblioteca_java.entity.Livro;
 import com.oliver.biblioteca_java.repo.AutorRepo;
 import com.oliver.biblioteca_java.repo.GeneroRepo;
 import com.oliver.biblioteca_java.repo.LivroRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class LivroService {
         this.generoRepo = generoRepo;
     }
 
+    @Transactional
     public void salvarLivro(LivroDto livroDto){
         Livro livro = new Livro();
         List<Autor> autores = DtoParaAutor(livroDto.getAutoresId());
@@ -43,6 +45,7 @@ public class LivroService {
 
         livroRepo.saveAndFlush(livro);
     }
+
 
     public LivroDto buscarLivroPorId(Long id){
         //encontrando a entidade livro
@@ -127,6 +130,7 @@ public class LivroService {
         return livrosDtos;
     }
 
+    @Transactional
     public void atualizarLivroPorId(Long id, LivroDto livroDto){
         Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
 
@@ -168,6 +172,7 @@ public class LivroService {
         livroRepo.save(livroDB);
     }
 
+    @Transactional
     public void atualizarLivroPorIsbn(String isbn, LivroDto livroDto){
         Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
 
@@ -208,6 +213,7 @@ public class LivroService {
         livroRepo.save(livroDB);
     }
 
+    @Transactional
     public void deletarLivroPorId(Long id){
         Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
         try{
@@ -217,6 +223,7 @@ public class LivroService {
         }
     }
 
+    @Transactional
     public void deletarLivroPorIsbn(String isbn){
         Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
         try{

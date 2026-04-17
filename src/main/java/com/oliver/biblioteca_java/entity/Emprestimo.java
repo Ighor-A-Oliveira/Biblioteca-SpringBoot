@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Emprestimo {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY )
     @Column(name = "emprestimo_id")
     private Long id;
 

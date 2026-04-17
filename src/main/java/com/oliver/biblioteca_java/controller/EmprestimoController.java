@@ -24,7 +24,7 @@ public class EmprestimoController {
 
     @PostMapping
     public ResponseEntity<Void> realizarEmprestimo(@RequestBody EmprestimoDto empDto){
-        empServ.realizarEmprestimo(empDto.getMembroId(), empDto.getMembroId());
+        empServ.realizarEmprestimo(empDto.getMembroId(), empDto.getLivroId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
