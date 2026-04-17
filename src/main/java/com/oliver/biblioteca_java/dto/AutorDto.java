@@ -24,4 +24,12 @@ public class AutorDto {
         this.nacionalidade = nacionalidade;
 
     }
+
+    public AutorDto(Long id, @NotBlank String nome, String nacionalidade, List<Long> livrosId) {
+        this.id = id;
+        this.nome = nome;
+        this.nacionalidade = nacionalidade;
+        this.livrosId = livrosId;
+
+    }
 }

@@ -119,7 +119,8 @@ public class LivroService {
                         livro.getIsbn(),
                         livro.getGenero().getId(),
                         livro.getAnoPublicacao(),
-                        livro.getQntEstoque()
+                        livro.getQntEstoque(),
+                        AutorParaDto(livro.getAutores())
                 ))
                 .toList();
 

@@ -27,6 +27,16 @@ public class LivroDto {
         this.qntEstoque = qntEstoque;
     }
 
+    public LivroDto(Long id, @NotBlank String titulo, String isbn, Long generoId, int anoPublicacao, int qntEstoque, List<Long> autoresId) {
+        this.id = id;
+        this.titulo = titulo;
+        this.isbn = isbn;
+        this.generoId = generoId;
+        this.anoPublicacao = anoPublicacao;
+        this.qntEstoque = qntEstoque;
+        this.autoresId = autoresId;
+    }
+
     public LivroDto(Long id, @NotBlank String titulo, String isbn, int anoPublicacao, int qntEstoque) {
         this.id = id;
         this.titulo = titulo;
