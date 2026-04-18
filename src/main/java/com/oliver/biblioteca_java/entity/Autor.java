@@ -24,10 +24,8 @@ public class Autor {
     @Column(name = "autor_id")
     private Long id;
 
-    @NotBlank
     private String nome;
 
-    @NotBlank
     @Column(name = "nacionalidade_autor")
     private String nacionalidade;
 

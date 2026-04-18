@@ -24,15 +24,12 @@ public class Membro {
     @Column(name = "membro_id")
     private Long id;
 
-    @NotBlank
     @Column(name = "nome_membro")
     private String nome;
 
-    @NotBlank
     @Column(name = "email_membro",unique = true)
     private String email;
 
-    @NotBlank
     @Column(name = "telefone_membro")
     private String telefone;
 

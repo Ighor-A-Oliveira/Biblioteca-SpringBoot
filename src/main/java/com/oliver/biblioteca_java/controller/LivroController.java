@@ -3,6 +3,7 @@ package com.oliver.biblioteca_java.controller;
 
 import com.oliver.biblioteca_java.dto.LivroDto;
 import com.oliver.biblioteca_java.service.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,22 +22,22 @@ public class LivroController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarLivro(@RequestBody LivroDto livroDto){
+    public ResponseEntity<Void> salvarLivro(@Valid @RequestBody LivroDto livroDto){
         livroServ.salvarLivro(livroDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     @GetMapping("/id/{id}")
-    public ResponseEntity<LivroDto> buscarLivroPorId(@PathVariable Long id){
+    public ResponseEntity<LivroDto> buscarLivroPorId(@Valid @PathVariable Long id){
         return ResponseEntity.ok(livroServ.buscarLivroPorId(id));
     }
 
     @GetMapping("/isbn/{isbn}")
-    public ResponseEntity<LivroDto> buscarLivroPorIsbn(@PathVariable String isbn){
+    public ResponseEntity<LivroDto> buscarLivroPorIsbn(@Valid @PathVariable String isbn){
         return ResponseEntity.ok(livroServ.buscarLivroPorIsbn(isbn));
     }
 
     @GetMapping("/titulo/{titulo}")
-    public ResponseEntity<LivroDto> buscarLivroPorTitulo(@PathVariable String titulo){
+    public ResponseEntity<LivroDto> buscarLivroPorTitulo(@Valid @PathVariable String titulo){
         return ResponseEntity.ok(livroServ.buscarLivroPorTitulo(titulo));
     }
 
@@ -46,25 +47,25 @@ public class LivroController {
     }
 
     @PutMapping("/id/{id}")
-    public ResponseEntity<Void> atualizarLivroPorId(@PathVariable Long id, @RequestBody LivroDto livroDto){
+    public ResponseEntity<Void> atualizarLivroPorId(@Valid @PathVariable Long id, @Valid @RequestBody LivroDto livroDto){
         livroServ.atualizarLivroPorId(id,livroDto);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/isbn/{isbn}")
-    public ResponseEntity<Void> atualizarLivroPorIsbn(@PathVariable String isbn, @RequestBody LivroDto livroDto){
+    public ResponseEntity<Void> atualizarLivroPorIsbn(@Valid @PathVariable String isbn, @Valid @RequestBody LivroDto livroDto){
         livroServ.atualizarLivroPorIsbn(isbn,livroDto);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> deletarLivroPorId(@PathVariable Long id){
+    public ResponseEntity<Void> deletarLivroPorId(@Valid @PathVariable Long id){
         livroServ.deletarLivroPorId(id);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/isbn/{isbn}")
-    public ResponseEntity<Void> deletarLivroPorIsbn(@PathVariable String isbn){
+    public ResponseEntity<Void> deletarLivroPorIsbn(@Valid @PathVariable String isbn){
         livroServ.deletarLivroPorIsbn(isbn);
         return ResponseEntity.noContent().build();
     }

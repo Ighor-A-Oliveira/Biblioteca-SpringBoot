@@ -19,8 +19,10 @@ public class EmprestimoDto {
     private LocalDate dataDevolucaoPrevista;
     private LocalDate dataDevolucaoReal;
     private String status;
-    @NotBlank
+
+    @NotBlank(message = "Eh preciso inserir o livro que esta sendo emprestado")
     private Long livroId;
-    @NotBlank
+
+    @NotBlank(message = "Eh preciso inserir o membro que esta pegando o livro emprestado")
     private Long membroId;
 }

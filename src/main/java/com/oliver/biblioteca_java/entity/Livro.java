@@ -20,24 +20,19 @@ public class Livro {
     @Column(name = "livro_id")
     private Long id;
 
-    @NotBlank
     private String titulo;
 
-    @NotBlank
     @Column(name = "isbn", unique = true)
     private String isbn;
 
-    @NotBlank
     private int anoPublicacao;
 
-    @NotBlank
     private int qntEstoque;
 
     @ManyToOne
     @JoinColumn(name = "genero_id")
     private Genero genero;
 
-    @NotBlank
     @ManyToMany
     @JoinTable(
             //Nome da tabela de juncao

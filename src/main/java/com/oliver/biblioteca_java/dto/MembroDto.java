@@ -1,7 +1,6 @@
 package com.oliver.biblioteca_java.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,13 +15,21 @@ import java.util.List;
 public class MembroDto {
 
     private Long id;
-    @NotBlank
+    @NotBlank(message = "Eh preciso inserir o nome do membro")
+    @Size(min = 5, message ="O nome precisa ter pelo menos 5 caracteres")
+    @Pattern(regexp = "^[^0-9]*$", message = "O campo não pode conter números")
     private String nome;
-    @NotBlank
+
+    @NotBlank(message = "Eh preciso inserir o email do membro")
+    @Size(min = 5, message ="O email precisa ter pelo menos 5 caracteres")
     @Email(message = "E-mail inválido")
     private String email;
-    @NotBlank
+
+    @NotBlank(message = "Eh preciso inserir o telefone do membro")
+    @Size(min = 8, message ="O telefone precisa ter pelo menos 8 caracteres")
     private String telefone;
+
+    @Min(value = 0, message = "A quantidade disponivel de emprestimos náo pode ser negativa")
     private Integer qntEmprestimo;
     private LocalDate dataCadastro;
     private Boolean ativo;

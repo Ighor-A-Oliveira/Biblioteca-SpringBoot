@@ -55,7 +55,7 @@ public class MembroService {
         List<Membro> membros = membroRepo.findByNome(nome);
 
         if (membros.isEmpty()) {
-            throw new RuntimeException("Genero não encontrado");
+            throw new RuntimeException("Membro não encontrado");
         }
 
         //Convertendo List<Genero> para List<GeneroDto>

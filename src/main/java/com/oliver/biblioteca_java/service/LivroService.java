@@ -4,6 +4,7 @@ import com.oliver.biblioteca_java.dto.LivroDto;
 import com.oliver.biblioteca_java.entity.Autor;
 import com.oliver.biblioteca_java.entity.Genero;
 import com.oliver.biblioteca_java.entity.Livro;
+import com.oliver.biblioteca_java.exception.GeneroNotFoundException;
 import com.oliver.biblioteca_java.repo.AutorRepo;
 import com.oliver.biblioteca_java.repo.GeneroRepo;
 import com.oliver.biblioteca_java.repo.LivroRepo;
@@ -155,7 +156,7 @@ public class LivroService {
 
         if (livroDto.getGeneroId() != null) {
             Genero genero = generoRepo.findById(livroDto.getGeneroId())
-                    .orElseThrow(() -> new RuntimeException("Gênero não encontrado"));
+                    .orElseThrow(() -> new GeneroNotFoundException(livroDto.getGeneroId()));
             livroDB.setGenero(genero);
         }
 
@@ -197,7 +198,7 @@ public class LivroService {
 
         if (livroDto.getGeneroId() != null) {
             Genero genero = generoRepo.findById(livroDto.getGeneroId())
-                    .orElseThrow(() -> new RuntimeException("Gênero não encontrado"));
+                    .orElseThrow(() -> new GeneroNotFoundException(livroDto.getGeneroId()));
             livroDB.setGenero(genero);
         }
 

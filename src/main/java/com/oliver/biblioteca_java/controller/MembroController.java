@@ -3,6 +3,7 @@ package com.oliver.biblioteca_java.controller;
 import com.oliver.biblioteca_java.dto.MembroDto;
 import com.oliver.biblioteca_java.entity.Membro;
 import com.oliver.biblioteca_java.service.MembroService;
+import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +23,18 @@ public class MembroController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> salvarMembro(@RequestBody MembroDto membroDto){
+    public ResponseEntity<Void> salvarMembro(@Valid @RequestBody MembroDto membroDto){
         membroServ.salvarMembro(membroDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<MembroDto> buscarMembroPorId(@PathVariable Long id){
+    public ResponseEntity<MembroDto> buscarMembroPorId(@Valid @PathVariable Long id){
         return ResponseEntity.ok(membroServ.buscarMembroPorId(id));
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<List<MembroDto>> buscarMembroPorNome(@PathVariable String nome){
+    public ResponseEntity<List<MembroDto>> buscarMembroPorNome(@Valid @PathVariable String nome){
         return ResponseEntity.ok(membroServ.buscarMembroPorNome(nome));
     }
 
@@ -43,14 +44,14 @@ public class MembroController {
     }
 
     @PutMapping("/id/{id}")
-    public ResponseEntity<Void> atualizarMembroPorId(@PathVariable Long id, @RequestBody  MembroDto membroDto){
+    public ResponseEntity<Void> atualizarMembroPorId(@Valid @PathVariable Long id, @Valid @RequestBody  MembroDto membroDto){
         membroServ.atualizarMembroPorId(id,membroDto);
         return ResponseEntity.noContent().build();
     }
 
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<Void> deletarMembroPorId(@PathVariable Long id){
+    public ResponseEntity<Void> deletarMembroPorId(@Valid @PathVariable Long id){
         membroServ.deletarMembroPorId(id);
         return ResponseEntity.noContent().build();
     }

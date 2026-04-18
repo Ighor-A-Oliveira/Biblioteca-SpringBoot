@@ -28,12 +28,10 @@ public class Emprestimo {
     @Column(name = "status_emprestimo")
     private String status;
 
-    @NotBlank
     @ManyToOne
     @JoinColumn(name = "livro_id")
     private Livro livro;
 
-    @NotBlank
     @ManyToOne
     @JoinColumn(name = "membro_id")
     private Membro membro;

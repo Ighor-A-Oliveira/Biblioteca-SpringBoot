@@ -22,11 +22,9 @@ public class Genero {
     @Column(name = "genero_id")
     private Long id;
 
-    @NotBlank
     @Column(name = "nome_genero")
     private String nome;
 
-    @NotBlank
     @Column(name = "descricao_genero")
     private String descricao;
 
