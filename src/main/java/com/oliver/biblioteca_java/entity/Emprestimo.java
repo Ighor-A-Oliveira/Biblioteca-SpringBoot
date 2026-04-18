@@ -1,6 +1,7 @@
 package com.oliver.biblioteca_java.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,10 +28,12 @@ public class Emprestimo {
     @Column(name = "status_emprestimo")
     private String status;
 
+    @NotBlank
     @ManyToOne
     @JoinColumn(name = "livro_id")
     private Livro livro;
 
+    @NotBlank
     @ManyToOne
     @JoinColumn(name = "membro_id")
     private Membro membro;

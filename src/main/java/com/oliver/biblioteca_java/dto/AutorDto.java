@@ -14,7 +14,9 @@ import java.util.List;
 public class AutorDto {
 
     private Long id;
+    @NotBlank
     private String nome;
+    @NotBlank
     private String nacionalidade;
     private List<Long> livrosId;
 

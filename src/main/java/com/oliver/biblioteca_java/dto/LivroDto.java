@@ -11,9 +11,13 @@ import java.util.List;
 public class LivroDto {
 
     private Long id;
+    @NotBlank
     private String titulo;
+    @NotBlank
     private String isbn;
+    @NotBlank
     private int anoPublicacao;
+    @NotBlank
     private int qntEstoque;
     private Long generoId;
     private List<Long> autoresId;

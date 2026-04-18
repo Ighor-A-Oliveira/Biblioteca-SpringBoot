@@ -25,6 +25,8 @@ public class Genero {
     @NotBlank
     @Column(name = "nome_genero")
     private String nome;
+
+    @NotBlank
     @Column(name = "descricao_genero")
     private String descricao;
 

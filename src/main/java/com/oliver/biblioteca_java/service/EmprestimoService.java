@@ -39,8 +39,14 @@ public class EmprestimoService {
             throw new RuntimeException("Livro sem estoque disponivel");
         }
 
-        //checando se temos oo membro cadastrado
+        //checando se temos o membro cadastrado
         Membro membro = membroRepo.findById(membroId).orElseThrow(() -> new RuntimeException("Membro náo encontrado"));
+
+        //Checando se o membro tem ainda tem emprestimos disponiveis
+        if(membro.getQntEmprestimo() <= 0){
+            throw new RuntimeException("Membro já tem 3 emprestimos feitos");
+        }
+
 
         //checando se a conta esta ativa
         if(!membro.getAtivo()){
@@ -50,6 +56,10 @@ public class EmprestimoService {
         //passou na checagem, a gente aceita o emprestimo, subtrai um do estoque e salva
         livro.setQntEstoque(livro.getQntEstoque()-1);
         livroRepo.save(livro);
+
+        //Diminuindo o numero de emprestimos disponiveis  ao membro
+        membro.setQntEmprestimo(membro.getQntEmprestimo()-1);
+        membroRepo.save(membro);
 
         //Depois de atualizar o estoque a gente cria o emprestimo
         Emprestimo emp = new Emprestimo();
@@ -65,10 +75,14 @@ public class EmprestimoService {
     @Transactional
     public void devolverLivro(Long emprestimoId){
         Emprestimo emp = emprestimoRepo.findById(emprestimoId).orElseThrow(() -> new RuntimeException("Emprestimo nao encontrado"));
+        Membro membro = membroRepo.findById(emp.getMembro().getId()).orElseThrow(() -> new RuntimeException("Membro nao encontrado"));
 
         Livro livro = emp.getLivro();
         livro.setQntEstoque(livro.getQntEstoque()+1);
+        //Aumentado o numero de emprestimos disponiveis ao membro
+        membro.setQntEmprestimo(membro.getQntEmprestimo()+1);
         livroRepo.save(livro);
+        membroRepo.save(membro);
 
         emp.setDataDevolucaoReal(LocalDate.now());
         emp.setStatus("DEVOLVIDO");

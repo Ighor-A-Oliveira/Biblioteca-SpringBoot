@@ -22,15 +22,22 @@ public class Livro {
 
     @NotBlank
     private String titulo;
+
+    @NotBlank
     @Column(name = "isbn", unique = true)
     private String isbn;
+
+    @NotBlank
     private int anoPublicacao;
+
+    @NotBlank
     private int qntEstoque;
 
     @ManyToOne
     @JoinColumn(name = "genero_id")
     private Genero genero;
 
+    @NotBlank
     @ManyToMany
     @JoinTable(
             //Nome da tabela de juncao

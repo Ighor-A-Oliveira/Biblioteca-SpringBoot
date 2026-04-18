@@ -26,6 +26,7 @@ public class MembroService {
         membro.setNome(membroDto.getNome());
         membro.setEmail(membroDto.getEmail());
         membro.setTelefone(membroDto.getTelefone());
+        membro.setQntEmprestimo(3);
         membro.setDataCadastro(LocalDate.now());
         membro.setAtivo(true);
         membroRepo.save(membro);
@@ -118,6 +119,7 @@ public class MembroService {
                         membro.getNome(),
                         membro.getEmail(),
                         membro.getTelefone(),
+                        membro.getQntEmprestimo(),
                         membro.getDataCadastro(),
                         membro.getAtivo(),
                         membro.getEmprestimos() == null

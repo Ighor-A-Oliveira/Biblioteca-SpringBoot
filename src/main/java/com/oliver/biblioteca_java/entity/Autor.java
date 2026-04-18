@@ -26,6 +26,8 @@ public class Autor {
 
     @NotBlank
     private String nome;
+
+    @NotBlank
     @Column(name = "nacionalidade_autor")
     private String nacionalidade;
 

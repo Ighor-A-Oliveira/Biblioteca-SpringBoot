@@ -36,6 +36,9 @@ public class Membro {
     @Column(name = "telefone_membro")
     private String telefone;
 
+    @Column(name = "qntEmprestimo_membro")
+    private Integer qntEmprestimo;
+
     private LocalDate dataCadastro;
     private Boolean ativo;
 
