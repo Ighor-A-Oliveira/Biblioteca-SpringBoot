@@ -3,6 +3,7 @@ package com.oliver.biblioteca_java.service;
 import com.oliver.biblioteca_java.dto.MembroDto;
 import com.oliver.biblioteca_java.entity.Emprestimo;
 import com.oliver.biblioteca_java.entity.Membro;
+import com.oliver.biblioteca_java.exception.MembroNaoEncontradoException;
 import com.oliver.biblioteca_java.repo.MembroRepo;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -34,7 +35,7 @@ public class MembroService {
 
     public MembroDto buscarMembroPorId(Long id){
         //encontrando a entidade livro
-        Membro membro = membroRepo.findById(id).orElseThrow(() -> new RuntimeException("Membro nao encontrado"));
+        Membro membro = membroRepo.findById(id).orElseThrow(() -> new MembroNaoEncontradoException(id));
 
         //Criando Dto do livro
         MembroDto membroDto = new MembroDto();
@@ -55,7 +56,7 @@ public class MembroService {
         List<Membro> membros = membroRepo.findByNome(nome);
 
         if (membros.isEmpty()) {
-            throw new RuntimeException("Membro não encontrado");
+            throw new MembroNaoEncontradoException(nome);
         }
 
         //Convertendo List<Genero> para List<GeneroDto>
@@ -74,7 +75,7 @@ public class MembroService {
 
     @Transactional
     public void atualizarMembroPorId(Long id, MembroDto membroDto){
-        Membro membroDB = membroRepo.findById(id).orElseThrow(() -> new RuntimeException("Membro náo encontrado"));
+        Membro membroDB = membroRepo.findById(id).orElseThrow(() -> new MembroNaoEncontradoException(id));
 
         //checando se o dto tem certos campos preenchidos
         //se esta preenchido a gente atualiza o registro da entidade original com os dados vindos do dto

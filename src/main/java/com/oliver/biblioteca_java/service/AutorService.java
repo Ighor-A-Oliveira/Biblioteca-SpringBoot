@@ -2,6 +2,7 @@ package com.oliver.biblioteca_java.service;
 
 import com.oliver.biblioteca_java.dto.AutorDto;
 import com.oliver.biblioteca_java.entity.Autor;
+import com.oliver.biblioteca_java.exception.AutorNaoEncontradoException;
 import com.oliver.biblioteca_java.repo.AutorRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class AutorService {
 
     public AutorDto buscarAutorPorId(Long id){
         //encontrando a entidade autor
-        Autor autor = autorRepo.findById(id).orElseThrow(() -> new RuntimeException("Autor nao encontrado"));
+        Autor autor = autorRepo.findById(id).orElseThrow(() -> new AutorNaoEncontradoException(id));
 
         //Criando Dto do Autor
         AutorDto autorDto = new AutorDto();
@@ -43,7 +44,7 @@ public class AutorService {
 
     // need to fix
     public AutorDto buscarAutorPorNome(String nome){
-        Autor autor = autorRepo.findByNome(nome).orElseThrow(() -> new RuntimeException("Autor nao encontrado"));
+        Autor autor = autorRepo.findByNome(nome).orElseThrow(() -> new AutorNaoEncontradoException(nome));
 
         //Criando Dto do Autor
         AutorDto autorDto = new AutorDto();
@@ -63,7 +64,7 @@ public class AutorService {
 
     @Transactional
     public void atualizarAutorPorId(Long id, AutorDto autorDto){
-        Autor autorDB = autorRepo.findById(id).orElseThrow(() -> new RuntimeException("Autor náo encontrado"));
+        Autor autorDB = autorRepo.findById(id).orElseThrow(() -> new AutorNaoEncontradoException(id));
 
 
         if (autorDto.getNome() != null) {

@@ -5,6 +5,8 @@ import com.oliver.biblioteca_java.entity.Autor;
 import com.oliver.biblioteca_java.entity.Genero;
 import com.oliver.biblioteca_java.entity.Livro;
 import com.oliver.biblioteca_java.exception.GeneroNotFoundException;
+import com.oliver.biblioteca_java.exception.LivroNaoDisponivelException;
+import com.oliver.biblioteca_java.exception.LivroNaoEncontradoException;
 import com.oliver.biblioteca_java.repo.AutorRepo;
 import com.oliver.biblioteca_java.repo.GeneroRepo;
 import com.oliver.biblioteca_java.repo.LivroRepo;
@@ -36,7 +38,7 @@ public class LivroService {
     public void salvarLivro(LivroDto livroDto){
         Livro livro = new Livro();
         List<Autor> autores = DtoParaAutor(livroDto.getAutoresId());
-        Genero genero = generoRepo.findById(livroDto.getGeneroId()).orElseThrow(() -> new RuntimeException("Genero nao encontrado"));
+        Genero genero = generoRepo.findById(livroDto.getGeneroId()).orElseThrow(() -> new GeneroNotFoundException(livroDto.getGeneroId()));
         livro.setIsbn(livroDto.getIsbn());
         livro.setAutores(autores);
         livro.setGenero(genero);
@@ -50,7 +52,7 @@ public class LivroService {
 
     public LivroDto buscarLivroPorId(Long id){
         //encontrando a entidade livro
-        Livro livro = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro nao encontrado"));
+        Livro livro = livroRepo.findById(id).orElseThrow(() -> new LivroNaoEncontradoException(id));
         //Aqui criamos uma lista de entidades autor para que possamos usar o metodo AutorParaDto
         List<Autor> tempAutores= livro.getAutores();
         //Esse metodo converte List<Autor> autores para List<Long> autoresId
@@ -72,7 +74,7 @@ public class LivroService {
     }
 
     public LivroDto buscarLivroPorIsbn(String isbn){
-        Livro livro = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro nao encontrado"));
+        Livro livro = livroRepo.findByIsbn(isbn).orElseThrow(() -> new LivroNaoEncontradoException(isbn));
         //Aqui criamos uma lista de entidades autor para que possamos usar o metodo AutorParaDto
         List<Autor> tempAutores= livro.getAutores();
         //Esse metodo converte List<Autor> autores para List<Long> autoresId
@@ -94,7 +96,7 @@ public class LivroService {
     }
 
     public LivroDto buscarLivroPorTitulo(String titulo){
-        Livro livro = livroRepo.findByTitulo(titulo).orElseThrow(() -> new RuntimeException("Livro nao encontrado"));
+        Livro livro = livroRepo.findByTitulo(titulo).orElseThrow(() -> new LivroNaoEncontradoException(titulo));
         //Aqui criamos uma lista de entidades autor para que possamos usar o metodo AutorParaDto
         List<Autor> tempAutores= livro.getAutores();
         //Esse metodo converte List<Autor> autores para List<Long> autoresId
@@ -133,7 +135,7 @@ public class LivroService {
 
     @Transactional
     public void atualizarLivroPorId(Long id, LivroDto livroDto){
-        Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
+        Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new LivroNaoEncontradoException(id));
 
         //checando se o dto tem certos campos preenchidos
         //se esta preenchido a gente atualiza o registro da entidade original com os dados vindos do dto
@@ -175,7 +177,7 @@ public class LivroService {
 
     @Transactional
     public void atualizarLivroPorIsbn(String isbn, LivroDto livroDto){
-        Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
+        Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new LivroNaoEncontradoException(isbn));
 
         //checando se o dto tem certos campos preenchidos
         //se esta preenchido a gente atualiza o registro da entidade original com os dados vindos do dto
@@ -216,7 +218,7 @@ public class LivroService {
 
     @Transactional
     public void deletarLivroPorId(Long id){
-        Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
+        Livro livroDB = livroRepo.findById(id).orElseThrow(() -> new LivroNaoEncontradoException(id));
         try{
             livroRepo.deleteById(id);
         } catch (RuntimeException e) {
@@ -226,7 +228,7 @@ public class LivroService {
 
     @Transactional
     public void deletarLivroPorIsbn(String isbn){
-        Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
+        Livro livroDB = livroRepo.findByIsbn(isbn).orElseThrow(() -> new LivroNaoEncontradoException(isbn));
         try{
             livroRepo.deleteByIsbn(isbn);
         } catch (RuntimeException e) {

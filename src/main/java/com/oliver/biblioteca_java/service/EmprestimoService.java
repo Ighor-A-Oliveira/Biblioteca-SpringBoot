@@ -7,6 +7,7 @@ import com.oliver.biblioteca_java.entity.Emprestimo;
 import com.oliver.biblioteca_java.entity.Genero;
 import com.oliver.biblioteca_java.entity.Livro;
 import com.oliver.biblioteca_java.entity.Membro;
+import com.oliver.biblioteca_java.exception.*;
 import com.oliver.biblioteca_java.repo.EmprestimoRepo;
 import com.oliver.biblioteca_java.repo.LivroRepo;
 import com.oliver.biblioteca_java.repo.MembroRepo;
@@ -32,25 +33,25 @@ public class EmprestimoService {
     @Transactional
     public void realizarEmprestimo(Long membroId, Long livroId){
         //Checando se temos o livro no acervo
-        Livro livro = livroRepo.findById(livroId).orElseThrow(() -> new RuntimeException("Livro náo encontrado"));
+        Livro livro = livroRepo.findById(livroId).orElseThrow(() -> new LivroNaoEncontradoException(livroId));
 
         //checando se temos o livro disponivel em estoque
         if(livro.getQntEstoque() <= 0){
-            throw new RuntimeException("Livro sem estoque disponivel");
+            throw new LivroNaoDisponivelException(livroId);
         }
 
         //checando se temos o membro cadastrado
-        Membro membro = membroRepo.findById(membroId).orElseThrow(() -> new RuntimeException("Membro náo encontrado"));
+        Membro membro = membroRepo.findById(membroId).orElseThrow(() -> new MembroNaoEncontradoException(membroId));
 
         //Checando se o membro tem ainda tem emprestimos disponiveis
         if(membro.getQntEmprestimo() <= 0){
-            throw new RuntimeException("Membro já tem 3 emprestimos feitos");
+            throw new LimiteEmprestimosExcedidoException(membroId);
         }
 
 
         //checando se a conta esta ativa
         if(!membro.getAtivo()){
-            throw new RuntimeException("Membro esta inativo");
+            throw new MembroInativoException(membroId);
         }
 
         //passou na checagem, a gente aceita o emprestimo, subtrai um do estoque e salva
@@ -74,8 +75,8 @@ public class EmprestimoService {
 
     @Transactional
     public void devolverLivro(Long emprestimoId){
-        Emprestimo emp = emprestimoRepo.findById(emprestimoId).orElseThrow(() -> new RuntimeException("Emprestimo nao encontrado"));
-        Membro membro = membroRepo.findById(emp.getMembro().getId()).orElseThrow(() -> new RuntimeException("Membro nao encontrado"));
+        Emprestimo emp = emprestimoRepo.findById(emprestimoId).orElseThrow(() -> new EmprestimoNaoEncontradoException(emprestimoId));
+        Membro membro = membroRepo.findById(emp.getMembro().getId()).orElseThrow(() -> new MembroNaoEncontradoException(emp.getMembro().getId()));
 
         Livro livro = emp.getLivro();
         livro.setQntEstoque(livro.getQntEstoque()+1);
@@ -92,7 +93,7 @@ public class EmprestimoService {
 
     public EmprestimoDto buscarPorId(Long id) {
         Emprestimo emp = emprestimoRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Empréstimo não encontrado"));
+                .orElseThrow(() -> new EmprestimoNaoEncontradoException(id));
 
         EmprestimoDto empDto = new EmprestimoDto();
         empDto.setId(emp.getId());
